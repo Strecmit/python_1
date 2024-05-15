@@ -10,13 +10,20 @@ def menu():
     return(vybor)
 
 def search():
-    poisk = input("ВВЕДИТЕ ФАМИЛИЮ/ИМЯ/ОТЧЕСТВО/№ ТЕЛЕФОНА >")
-    with open("sprav.txt","a", encoding="utf-8") as file:
-        lines = 0
-        words1 = 0
-        for line in file:
-            if poisk in line:
-                print(line)
+    with open("sprav.txt","r", encoding="utf-8") as file:
+        povt_zapros = 1
+        while int(povt_zapros) !=0:
+            poisk = input("ВВЕДИТЕ ФАМИЛИЮ/ИМЯ/ОТЧЕСТВО/№ ТЕЛЕФОНА >")
+            i=0
+            for line in file:
+                if poisk.upper() in line:
+                    print(line)
+                    i+=1
+            if i==0:
+                print("ЗАПИСЬ НЕ НАЙДЕНА")
+            povt_zapros = input("ПОВТОРИТЬ ПОИСК? 1-ДА  0-НЕТ>")
+            file.seek(0,0)
+                
     input("ДЛЯ ВЫХОДА В МЕНЮ НАЖМИТЕ ЛЮБУЮ КЛАВИШУ >")
     return()
 
@@ -37,7 +44,13 @@ def redactor():
         name_s = input("ВВЕДИТЕ ФАМИЛИЮ >")
         name = input("ВВЕДИТЕ ИМЯ >")
         name_f = input("ВВЕДИТЕ ОТЧЕСТВО >")
-        phb_num = input("ВВЕДИТЕ НОМЕР ТЕЛЕФОНА >")
+        input_num = input("ВВЕДИТЕ НОМЕР ТЕЛЕФОНА >")
+        while input_num.isnumeric()!=1:
+            print("НЕВЕРНЫЙ ВВОД НОМЕРА")
+            input_num = input("ВВЕДИТЕ НОМЕР ТЕЛЕФОНА >")
+        phb_num = int(input_num)
+
+
         with open("sprav.txt", "a", encoding="utf-8") as file1:
             file1.write(f"{name_s.upper()}\t{name.upper()}\t{name_f.upper()}\t{phb_num}\n")
         print("КОНТАКТ ДОБАВЛЕН")
